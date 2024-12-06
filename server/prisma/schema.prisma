@@ -1,0 +1,22 @@
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  email    String @unique
+  wallet   Wallet
+}
+
+model Wallet {
+  id       Int    @id @default(autoincrement())
+  userId   Int    @unique
+  balance  Float  @default(0)
+  user     User   @relation(fields: [userId], references: [id])
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  walletId  Int
+  type      String   // send, receive
+  amount    Float
+  category  String   // savings, food, etc.
+  wallet    Wallet   @relation(fields: [walletId], references: [id])
+}
